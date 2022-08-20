@@ -123,6 +123,15 @@ namespace XLuaTest
         void Start()
         {
             luaenv.DoString(@"
+                print('aaa')
+                print('hello ...')
+                package.cpath = package.cpath .. ';/Users/luowentao/.vscode/extensions/tangzx.emmylua-0.5.8/debugger/emmy/mac/arm64/emmy_core.dylib'
+                print(package.cpath)
+                local dbg = require('emmy_core')
+                print('dbg = ', dbg)
+                dbg.tcpConnect('localhost', 9966)
+            ");
+            luaenv.DoString(@"
                 function id(...)
                     return ...
                 end

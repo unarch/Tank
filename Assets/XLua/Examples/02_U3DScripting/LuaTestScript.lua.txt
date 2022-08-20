@@ -12,11 +12,11 @@ function start()
 
 	---emmylua new Debugger
 	print("hello ...")
-	-- package.cpath = package.cpath .. ';/Users/luowentao/.vscode/extensions/tangzx.emmylua-0.3.49/debugger/emmy/mac/emmy_core.dylib'
-	-- print(package.cpath)
-	-- local dbg = require('emmy_core')
-	-- print("dbg = ", dbg)
-	-- dbg.tcpConnect('localhost', 9966)
+	package.cpath = package.cpath .. ';/Users/luowentao/.vscode/extensions/tangzx.emmylua-0.5.8/debugger/emmy/mac/arm64/emmy_core.dylib'
+	print(package.cpath)
+	local dbg = require('emmy_core')
+	print("dbg = ", dbg)
+	dbg.tcpConnect('localhost', 9966)
 
 	local a = "hello world"
 	print(a)

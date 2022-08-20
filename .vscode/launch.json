@@ -15,7 +15,7 @@
             ".lua.txt",
             ".lua.bytes"
         ],
-        "ideConnectDebugger": true
+        "ideConnectDebugger": false
     },
         {
             "name": "Unity Editor",

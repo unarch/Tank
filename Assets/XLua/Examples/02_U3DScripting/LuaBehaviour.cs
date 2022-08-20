@@ -54,7 +54,7 @@ namespace XLuaTest
             }
 
             luaEnv.DoString(luaScript.text, "LuaTestScript", scriptEnv);
-
+            // luaEnv.DoString("require 'LuaTestScript'");
             Action luaAwake = scriptEnv.Get<Action>("awake");
             scriptEnv.Get("start", out luaStart);
             scriptEnv.Get("update", out luaUpdate);
