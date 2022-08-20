@@ -4,10 +4,22 @@
 -- http://opensource.org/licenses/MIT
 -- Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
+
 local speed = 10
 local lightCpnt = nil
 
 function start()
+
+	---emmylua new Debugger
+	print("hello ...")
+	-- package.cpath = package.cpath .. ';/Users/luowentao/.vscode/extensions/tangzx.emmylua-0.3.49/debugger/emmy/mac/emmy_core.dylib'
+	-- print(package.cpath)
+	-- local dbg = require('emmy_core')
+	-- print("dbg = ", dbg)
+	-- dbg.tcpConnect('localhost', 9966)
+
+	local a = "hello world"
+	print(a)
 	print("lua start...")
 	print("injected object", lightObject)
 	lightCpnt= lightObject:GetComponent(typeof(CS.UnityEngine.Light))
