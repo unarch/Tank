@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Tank/Scenes/tank.unity
+    guid: 57028a066988d4289bceac3e748932c7
+  - enabled: 1
+    path: Assets/Tank/Scenes/b.unity
+    guid: 5546338fe51cd4f5eb13a72b97a8b8ad
   m_configObjects: {}
