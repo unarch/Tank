@@ -43,8 +43,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.449801, y: 0.6573709, z: 4.3219137}
-  m_Center: {x: -0.013291597, y: 0.17574865, z: -0.4573903}
+  m_Size: {x: 2.449801, y: 0.6573709, z: 4.80011}
+  m_Center: {x: -0.013291597, y: 0.17574865, z: -0.24935913}
 --- !u!1 &912157021
 GameObject:
   m_ObjectHideFlags: 0
@@ -115,7 +115,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1140625339}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.221, y: 0.12, z: -1.61}
+  m_LocalPosition: {x: 1.221, y: 0.026000135, z: -1.61}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -132,7 +132,7 @@ WheelCollider:
   m_Center: {x: 0, y: 0, z: 0}
   m_Radius: 0.5
   m_SuspensionSpring:
-    spring: 35000
+    spring: 3500
     damper: 450
     targetPosition: 0.5
   m_SuspensionDistance: 0.3
@@ -152,6 +152,39 @@ WheelCollider:
     m_AsymptoteValue: 1
     m_Stiffness: 1
   m_Enabled: 1
+--- !u!1 &1252102253
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1252102254}
+  m_Layer: 0
+  m_Name: Tracks
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1252102254
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1252102253}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2856976221426921416}
+  - {fileID: 2857360130201611054}
+  m_Father: {fileID: 2862345395603505142}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1542742022
 GameObject:
   m_ObjectHideFlags: 0
@@ -177,7 +210,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1542742022}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.212, y: 0.12, z: -1.61}
+  m_LocalPosition: {x: -1.212, y: 0.026000135, z: -1.61}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -194,7 +227,7 @@ WheelCollider:
   m_Center: {x: 0, y: 0, z: 0}
   m_Radius: 0.5
   m_SuspensionSpring:
-    spring: 35000
+    spring: 3500
     damper: 450
     targetPosition: 0.5
   m_SuspensionDistance: 0.3
@@ -249,7 +282,7 @@ Transform:
   - {fileID: 769582775}
   - {fileID: 912157022}
   m_Father: {fileID: 2862345395603505142}
-  m_RootOrder: 6
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1944558171
 GameObject:
@@ -276,7 +309,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1944558171}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.22, y: 0.12, z: 1.164}
+  m_LocalPosition: {x: 1.22, y: 0.026000135, z: 1.164}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -293,7 +326,7 @@ WheelCollider:
   m_Center: {x: 0, y: 0, z: 0}
   m_Radius: 0.5
   m_SuspensionSpring:
-    spring: 35000
+    spring: 3500
     damper: 450
     targetPosition: 0.5
   m_SuspensionDistance: 0.3
@@ -338,7 +371,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2017030186}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.212, y: 0.12, z: 1.164}
+  m_LocalPosition: {x: -1.212, y: 0.026, z: 1.164}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -355,7 +388,7 @@ WheelCollider:
   m_Center: {x: 0, y: 0, z: 0}
   m_Radius: 0.5
   m_SuspensionSpring:
-    spring: 35000
+    spring: 3500
     damper: 450
     targetPosition: 0.5
   m_SuspensionDistance: 0.3
@@ -1111,13 +1144,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2860349911481577568}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -0.9852874, y: -0.1534577, z: -0.12676583}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
+  m_LocalPosition: {x: -0.9852905, y: -0.15345764, z: -0.12677002}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2862345395603505142}
-  m_RootOrder: 3
+  m_Father: {fileID: 1252102254}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2864824813722544376
 MeshFilter:
@@ -1451,10 +1484,9 @@ Transform:
   - {fileID: 6155680192375111140}
   - {fileID: 2857320231361054750}
   - {fileID: 2857111314946762588}
-  - {fileID: 2856976221426921416}
-  - {fileID: 2857360130201611054}
   - {fileID: 2861491350557219256}
   - {fileID: 1604299202}
+  - {fileID: 1252102254}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1472,6 +1504,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   turret: {fileID: 0}
   gun: {fileID: 0}
+  motorAudioSource: {fileID: 0}
+  motorClip: {fileID: 8300000, guid: 4b12dc9a5ff6d4630bd2eca49bf897d4, type: 3}
+  axleInfos:
+  - leftWheel: {fileID: 2017030188}
+    rightWheel: {fileID: 1944558173}
+    motor: 0
+    steering: 1
+  - leftWheel: {fileID: 1542742024}
+    rightWheel: {fileID: 1140625341}
+    motor: 1
+    steering: 0
+  maxMotorTorque: 120
+  maxBrakeTorque: 150
+  maxSteeringAngle: 40
 --- !u!54 &5687105807825955621
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1762,13 +1808,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2860482982439954568}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 0.95143634, y: -0.1534577, z: -0.12676583}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
+  m_LocalPosition: {x: 0.95144653, y: -0.15345764, z: -0.12677002}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2862345395603505142}
-  m_RootOrder: 4
+  m_Father: {fileID: 1252102254}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2868357706701802106
 MeshFilter:
@@ -2853,7 +2899,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2862345395603505142}
-  m_RootOrder: 5
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6155680192375111143
 GameObject:

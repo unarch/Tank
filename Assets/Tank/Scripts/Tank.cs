@@ -12,12 +12,35 @@ public class Tank : MonoBehaviour
     private float turretRotTarget = 0;
     // 炮管目标角度
     private float turretRollTarget = 0;
-
+    
     // 炮管
     public Transform gun;
     // 炮管的旋转范围
     private float maxRoll = 10f;
     private float minRoll = -10f;
+
+    //马达音源
+    public AudioSource motorAudioSource;
+    //马达音效
+    public AudioClip motorClip;
+
+    // 轮轴
+    public List<AxleInfo> axleInfos;
+    // 马力 / 最大马力
+    private float motor = 0;
+    public float maxMotorTorque;
+
+    // 制动 / 最大制动
+    private float brakeTorque = 0;
+    public float maxBrakeTorque = 100;
+    // 转向角 / 最大转向角
+    private float steering = 0;
+    public float maxSteeringAngle;
+    // 车轮
+    private Transform wheels;
+
+    // 履带
+    private Transform tracks;
 
     // Start is called before the first frame update
     void Start()
@@ -26,27 +49,114 @@ public class Tank : MonoBehaviour
         turret = transform.Find("Turret");
         // 找到炮管
         gun = turret.Find("Turret/Gun");
+        // 获取轮子
+        wheels = transform.Find("Wheels");
+        // 获取履带
+        tracks = transform.Find("Tracks");
+
+        motorAudioSource = gameObject.AddComponent<AudioSource>();
+        motorAudioSource.spatialBlend = 1;
     }
 
     // Update is called once per frame
     void Update()
     {
-        // 旋转
-        float steer = 20;
-        float x = Input.GetAxis("Horizontal");
-        transform.Rotate(0, x * steer * Time.deltaTime, 0);
-        // 前进后退
-        float speed = 3f;
-        float y = Input.GetAxis("Vertical");
-        Vector3 s = y * transform.forward * Time.deltaTime * speed;
-        transform.transform.position += s;
+        PlayerCtrl();
 
-        turretRotTarget = Camera.main.transform.eulerAngles.y;
-        turretRollTarget = Camera.main.transform.eulerAngles.x;
+        foreach (AxleInfo axleInfo in axleInfos)
+        {
+            // 转向
+            if (axleInfo.steering)
+            {
+                axleInfo.leftWheel.steerAngle = steering;
+                axleInfo.rightWheel.steerAngle = steering;
+            }
+            // 马力
+            if (axleInfo.motor)
+            {
+                axleInfo.leftWheel.motorTorque = motor;
+                axleInfo.rightWheel.motorTorque = motor;
+            }
+            // 制动
+            axleInfo.leftWheel.brakeTorque = brakeTorque;
+            axleInfo.rightWheel.brakeTorque = brakeTorque;
+        }
+        // 转动轮子履带
+        var motorAxle = axleInfos[1];
+        if (motorAxle != null)
+        {
+            WheelsRotation(motorAxle.leftWheel);
+            TrackMove();
+        }
+
         TurretRotation();
         TurretRoll();
+        MotorSound();
     }
 
+    // 玩家控制
+    public void PlayerCtrl()
+    {
+        // 马力和转向角
+        motor = maxMotorTorque * Input.GetAxis("Vertical");
+        steering = maxSteeringAngle * Input.GetAxis("Horizontal");
+
+        // 制动
+        brakeTorque = 0;
+        foreach (AxleInfo axleInfo in axleInfos)
+        {
+            if (axleInfo.leftWheel.rpm > 5 && motor < 0)
+                brakeTorque = maxBrakeTorque;
+            else if (axleInfo.leftWheel.rpm < -5 && motor > 0)
+                brakeTorque = maxBrakeTorque;
+            continue;
+        }
+
+        // 炮塔炮管角度
+        turretRotTarget = Camera.main.transform.eulerAngles.y;
+        turretRollTarget = Camera.main.transform.eulerAngles.x;
+    }
+
+    // 车轮旋转
+    public void WheelsRotation(WheelCollider collider)
+    {
+        if (wheels == null)
+            return;
+        Vector3 position;
+        Quaternion rotation;
+        collider.GetWorldPose(out position, out rotation);
+        foreach (Transform wheel in wheels) 
+        {
+            wheel.rotation = rotation;
+        }
+    }
+    //履带滚动
+    public void TrackMove() {
+        if (tracks == null)
+            return;
+        float offset = 0;
+        if (wheels.GetChild(0) != null)
+            offset = wheels.GetChild(0).localEulerAngles.x / 90.0f;
+        foreach (Transform track in tracks)
+        {
+            MeshRenderer mr = track.gameObject.GetComponent<MeshRenderer>();
+            if (mr == null) continue;
+            Material mt = mr.material;
+            mt.mainTextureOffset = new Vector2(0, offset);
+        }
+    }
+    // 马达音效
+    void MotorSound()
+    {
+        if (motor != 0 && !motorAudioSource.isPlaying)
+        {
+            motorAudioSource.loop = true;
+            motorAudioSource.clip = motorClip;
+            motorAudioSource.Play();
+        }
+        if (motor == 0)
+            motorAudioSource.Pause();
+    }
     // 炮塔旋转
     public void TurretRotation()
     {
