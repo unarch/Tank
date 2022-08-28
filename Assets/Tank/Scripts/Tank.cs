@@ -51,7 +51,9 @@ public class Tank : MonoBehaviour
     // 上一次开炮时间
     public float lastShootTime = 0;
     // 开炮的时间间隔
-    private float shootInterval = 0.5f;
+    private float shootInterval = 1.5f;
+
+    private AI ai;
 
     //操控类型
     public enum CtrlType
@@ -85,6 +87,11 @@ public class Tank : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (ctrlType == CtrlType.computer)
+        {
+            ai = gameObject.AddComponent<AI>();
+            ai.tank = this;
+        }
         // 找到炮塔
         turret = transform.Find("Turret");
         // 找到炮管
@@ -104,6 +111,8 @@ public class Tank : MonoBehaviour
     void Update()
     {
         PlayerCtrl();
+        ComputerCtrl();
+        NoneCtrl();
 
         foreach (AxleInfo axleInfo in axleInfos)
         {
@@ -149,9 +158,9 @@ public class Tank : MonoBehaviour
         brakeTorque = 0;
         foreach (AxleInfo axleInfo in axleInfos)
         {
-            if (axleInfo.leftWheel.rpm > 5 && motor < 0)
+            if (axleInfo.leftWheel.rpm > 5 && motor < 0) // 前进时按下了下
                 brakeTorque = maxBrakeTorque;
-            else if (axleInfo.leftWheel.rpm < -5 && motor > 0)
+            else if (axleInfo.leftWheel.rpm < -5 && motor > 0) // 后退按了上
                 brakeTorque = maxBrakeTorque;
             continue;
         }
@@ -160,6 +169,34 @@ public class Tank : MonoBehaviour
 
         if (Input.GetMouseButton(0))
             Shoot();
+    }
+    // 电脑控制
+    public void ComputerCtrl()
+    {
+        if (ctrlType != CtrlType.computer) return;
+        // 炮塔目标角度
+        Vector3 rot = ai.GetTurretTarget();
+        turretRotTarget = rot.y;
+        turretRollTarget = rot.x;
+        
+        // 移动
+        steering = ai.GetSteering();
+        motor = ai.GetMotor();
+        brakeTorque = ai.GetBrakeTorque();
+
+        //发射炮弹
+        if (ai.IsShoot())
+            Shoot();
+
+
+    }
+    // 无人控制
+    public void NoneCtrl()
+    {
+        if (ctrlType != CtrlType.none) return;
+        motor = 0;
+        steering = 0;
+        brakeTorque = maxBrakeTorque / 2;
     }
 
     // 车轮旋转
@@ -272,7 +309,12 @@ public class Tank : MonoBehaviour
         // 坦克已经被摧毁
         if (hp <= 0) return;
         // 击中处理
-        if (hp > 0) hp -= att;
+        if (hp > 0)
+        {
+            hp -= att;
+            if (ai != null)
+                ai.OnAttacked(attackTank);
+        } 
         if (hp <= 0)
         {
             GameObject destroyObj = (GameObject)Instantiate(destroyEffect);
@@ -287,6 +329,7 @@ public class Tank : MonoBehaviour
                 if (tankCmp != null && tankCmp.ctrlType == CtrlType.player)
                     tankCmp.StartDrawKill();
             }
+            Battle.instance.IsWin(attackTank);
         }
     }
 

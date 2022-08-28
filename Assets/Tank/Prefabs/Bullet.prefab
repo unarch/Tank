@@ -131,3 +131,5 @@ MonoBehaviour:
   explode: {fileID: 159918, guid: a0040bf7072bc2f4e82d887d50a9c5e2, type: 3}
   maxLiftTime: 3
   instantiateTime: 0
+  attackTank: {fileID: 0}
+  explodeClip: {fileID: 8300000, guid: 9847979520a9143798abda6fbd9754fb, type: 3}
