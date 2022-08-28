@@ -14,7 +14,7 @@ public class Battle : MonoBehaviour
     {
         // 单例
         instance = this;
-        StartTwoCampBattle(3, 3);
+        // StartTwoCampBattle(3, 3);
     }
 
     // 开始战斗
@@ -102,6 +102,7 @@ public class Battle : MonoBehaviour
             
         }
         Debug.Log("阵营 " + camp + " 获胜");
+        PanelMgr.instance.OpenPanel<WinPanel>("", camp);
         
         return true;
         

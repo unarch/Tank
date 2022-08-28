@@ -6,6 +6,7 @@ public class AI : MonoBehaviour
 {
     // 所控制的坦克
     public Tank tank;
+    
     // 状态枚举
     public enum Status
     {
@@ -14,7 +15,7 @@ public class AI : MonoBehaviour
     }
 
     private Status status = Status.Attack;
-
+    
     // 锁定的坦克
     public GameObject target;
     // 视野范围
