@@ -89,7 +89,7 @@ public class ProtocolBytes : ProtocolBase
         return GetInt(start, ref end);
     }
     
-    public void AddFloat(int num)
+    public void AddFloat(float num)
     {
         byte[] numBytes = BitConverter.GetBytes(num);
         if (bytes == null) bytes = numBytes;
