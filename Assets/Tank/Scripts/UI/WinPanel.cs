@@ -38,8 +38,10 @@ public class WinPanel : PanelBase
 
     public void OnCloseClick()
     {
-        Battle.instance.ClearBattle();
-        PanelMgr.instance.OpenPanel<TitlePanel>("");
+        // Battle.instance.ClearBattle();
+        // PanelMgr.instance.OpenPanel<TitlePanel>("");
+        MultiBattle.instance.ClearBattle();
+        PanelMgr.instance.OpenPanel<RoomPanel>("");
         Close();
     }
 }

@@ -71,9 +71,9 @@ public class MultiBattle : MonoBehaviour
             GenerateTank(id, team, swopId);
         }
        NetMgr.srvConn.msgDist.AddListener ("UpdateUnitInfo", RecvUpdateUnitInfo);
-        //NetMgr.srvConn.msgDist.AddListener ("Shooting", RecvShooting);
-        //NetMgr.srvConn.msgDist.AddListener ("Hit", RecvHit);
-        //NetMgr.srvConn.msgDist.AddListener ("Result", RecvResult);
+        NetMgr.srvConn.msgDist.AddListener ("Shooting", RecvShooting);
+        NetMgr.srvConn.msgDist.AddListener ("Hit", RecvHit);
+        NetMgr.srvConn.msgDist.AddListener ("Result", RecvResult);
     }
 
 
@@ -162,6 +162,89 @@ public class MultiBattle : MonoBehaviour
         bt.tank.NetTurretTarget(turretY, gunX); //稍后实现
     }
 
+
+    public void RecvShooting(ProtocolBase protocol)
+    {
+        //解析协议
+        int start = 0;
+        ProtocolBytes protocolBytes = (ProtocolBytes)protocol;
+        string protocolName = protocolBytes.GetString(start, ref start);
+        string id = protocolBytes.GetString(start, ref start);
+        Vector3 pos;
+        Vector3 rot;
+        pos.x = protocolBytes.GetFloat(start, ref start);
+        pos.y = protocolBytes.GetFloat(start, ref start);
+        pos.z = protocolBytes.GetFloat(start, ref start);
+        rot.x = protocolBytes.GetFloat(start, ref start);
+        rot.y = protocolBytes.GetFloat(start, ref start);
+        rot.z = protocolBytes.GetFloat(start, ref start);
+        //处理
+        if (!list.ContainsKey(id))
+        {
+            Debug.Log("RecvShooting bt == null ");
+            return;
+        }
+        BattleTank bt = list[id];
+        if (id == GameMgr.instance.id)
+        {
+            return;
+        }
+        bt.tank.NetShoot(pos, rot);
+    }
+
+
+    public void RecvHit(ProtocolBase protocol)
+    {
+        //解析协议
+        int start = 0;
+        ProtocolBytes protocolBytes = (ProtocolBytes)protocol;
+        string protocolName = protocolBytes.GetString(start, ref start);
+        string attId = protocolBytes.GetString(start, ref start);
+        string defId = protocolBytes.GetString(start, ref start);
+        float hurt = protocolBytes.GetFloat(start, ref start);
+        //获取BattleTank
+        if (!list.ContainsKey(attId))
+        {
+            Debug.Log("RecvHit attBt == null " + attId);
+            return;
+        }
+        BattleTank attBt = list[attId];
+
+        if (!list.ContainsKey(defId))
+        {
+            Debug.Log("RecvHit defBt == null " + defId);
+            return;
+        }
+        BattleTank defBt = list[defId];
+        //被击中的坦克
+        defBt.tank.NetBeAttacked(hurt, attBt.tank.gameObject);
+    }
+
+
+    public void RecvResult(ProtocolBase protocol)
+    {
+        //解析协议
+        int start = 0;
+        ProtocolBytes protocolBytes = (ProtocolBytes)protocol;
+        string protocolName = protocolBytes.GetString(start, ref start);
+        int winTeam = protocolBytes.GetInt(start, ref start);
+        //弹出胜负面板
+        string id = GameMgr.instance.id;
+        BattleTank bt = list[id];
+        if (bt.camp == winTeam)
+        {
+            PanelMgr.instance.OpenPanel<WinPanel>("", 1);
+        }
+        else
+        {
+            PanelMgr.instance.OpenPanel<WinPanel>("", 0);
+        }
+        //取消监听
+        NetMgr.srvConn.msgDist.DelListener("UpdateUnitInfo", RecvUpdateUnitInfo);
+        NetMgr.srvConn.msgDist.DelListener("Shooting", RecvShooting);
+        NetMgr.srvConn.msgDist.DelListener("Hit", RecvHit);
+        NetMgr.srvConn.msgDist.DelListener("Result", RecvResult);
+    }
     
 
 

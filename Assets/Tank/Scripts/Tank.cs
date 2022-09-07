@@ -319,6 +319,10 @@ public class Tank : MonoBehaviour
         lastShootTime = Time.time;
 
         shootAudioSource.PlayOneShot(shootClip);
+
+        // 发送同步消息
+        if (ctrlType == CtrlType.player)
+            SendShootInfo(bulletObj.transform);
     }
 
     public void BeAttacked(float att, GameObject attackTank)
@@ -488,7 +492,7 @@ public class Tank : MonoBehaviour
     }
 
 
-    
+
     //last 上次的位置信息
     Vector3 lPos;
     Vector3 lRot;
@@ -585,6 +589,71 @@ public class Tank : MonoBehaviour
             motorAudioSource.clip = motorClip;
             motorAudioSource.Play();
         }
+    }
+
+    public void SendShootInfo(Transform bulletTrans)
+    {
+        ProtocolBytes protocol = new ProtocolBytes();
+        protocol.AddString("Shooting");
+
+        // 位置旋转
+        Vector3 pos = bulletTrans.position;
+        Vector3 rot = bulletTrans.eulerAngles;
+
+        protocol.AddFloat(pos.x);
+        protocol.AddFloat(pos.y);
+        protocol.AddFloat(pos.z);
+        protocol.AddFloat(rot.x);
+        protocol.AddFloat(rot.y);
+        protocol.AddFloat(rot.z);
+        NetMgr.srvConn.Send(protocol);
+    }
+
+    // 接收炮弹消息
+    public void NetShoot(Vector3 pos, Vector3 rot)
+    {
+        // 产生炮弹
+        GameObject bulletObj = (GameObject)Instantiate(bullet, pos, Quaternion.Euler(rot));
+        Bullet bulletCmp = bulletObj.GetComponent<Bullet>();
+        if (bulletCmp != null)
+            bulletCmp.attackTank = gameObject;
+        shootAudioSource.PlayOneShot(shootClip);
+    }
+
+    public void SendHit(string id, float damage)
+    {
+        ProtocolBytes protocol = new ProtocolBytes();
+        protocol.AddString("Hit");
+        protocol.AddString(id);
+        protocol.AddFloat(damage);
+        NetMgr.srvConn.Send(protocol);
+    }
+
+    public void NetBeAttacked(float att, GameObject attackTank)
+    {
+        // 扣除生命值
+        if (hp <= 0) return;
+        hp -= att;
+        // 被击毁
+        if (hp <= 0)
+        {
+            ctrlType = CtrlType.none;
+            // 播放着火特效
+            GameObject destroyObj = (GameObject)Instantiate(destroyEffect);
+            destroyObj.transform.SetParent(transform, false);
+            destroyObj.transform.localPosition = new Vector3(0, 2.57f, 0);
+
+            // 播放击杀提示
+            if (attackTank != null)
+            {
+                Tank tankCmp = attackTank.GetComponent<Tank>();
+                if (tankCmp != null && tankCmp.ctrlType == CtrlType.player)
+                {
+                    tankCmp.StartDrawKill();
+                }
+            }
+        }
+
     }
 
 
