@@ -86,11 +86,11 @@ public class RoomListPanel : PanelBase
     public void RecvGetAchieve(ProtocolBase protocol)
     {
         //解析协议
-        ProtocolBytes proto = (ProtocolBytes)protocol;
+        ProtocolBytes protocolBytes = (ProtocolBytes)protocol;
         int start = 0;
-        string protoName = proto.GetString(start, ref start);
-        int win = proto.GetInt(start, ref start);
-        int lost = proto.GetInt(start, ref start);
+        string protocolName = protocolBytes.GetString(start, ref start);
+        int win = protocolBytes.GetInt(start, ref start);
+        int lost = protocolBytes.GetInt(start, ref start);
         //处理
         idText.text = "指挥官：" + GameMgr.instance.id;
         winText.text = win.ToString();
@@ -104,14 +104,14 @@ public class RoomListPanel : PanelBase
         //清理
         ClearRoomUnit();
         //解析协议
-        ProtocolBytes proto = (ProtocolBytes)protocol;
+        ProtocolBytes protocolBytes = (ProtocolBytes)protocol;
         int start = 0;
-        string protoName = proto.GetString(start, ref start);
-        int count = proto.GetInt(start, ref start);
+        string protoName = protocolBytes.GetString(start, ref start);
+        int count = protocolBytes.GetInt(start, ref start);
         for (int i = 0; i < count; i++)
         {
-            int num = proto.GetInt(start, ref start);
-            int status = proto.GetInt(start, ref start);
+            int num = protocolBytes.GetInt(start, ref start);
+            int status = protocolBytes.GetInt(start, ref start);
             GenerateRoomUnit(i, num, status);
         }
     }

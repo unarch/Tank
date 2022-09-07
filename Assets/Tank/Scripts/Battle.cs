@@ -1,6 +1,7 @@
 
 using UnityEngine;
 
+// 单机战场
 public class Battle : MonoBehaviour
 {
     public static Battle instance;
